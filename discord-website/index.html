@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Community – Unser Team</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+  #stickyDiscord {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 50;
+  }
+</style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+
+<!-- Hero Section -->
+<section class="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
+  <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
+    <source src="videos/discord-video.mp4" type="video/mp4">
+  </video>
+  <div class="absolute inset-0 bg-black/70"></div>
+  <div class="relative z-10" data-aos="zoom-in" data-aos-duration="1500">
+    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-pulse">Herzlich Willkommen</h1>
+    <p class="text-lg md:text-2xl mb-6 max-w-2xl mx-auto">Trete unserem Discord-Server bei und werde Teil unserer aktiven Gaming-Community voller Spaß, Events und netter Leute.</p>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-20 px-6 md:px-20 bg-gray-800">
+  <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">Unser Team</h2>
+  <div id="team-grid" class="grid gap-8 md:grid-cols-3"></div>
+</section>
+
+<!-- Streamer Section -->
+<section class="py-20 px-6 md:px-20 bg-gray-900">
+  <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">Unsere Streamer</h2>
+  <div id="streamer-grid" class="grid gap-8 md:grid-cols-3"></div>
+</section>
+
+<!-- Admin Panel -->
+<section class="py-20 px-6 md:px-20 bg-black/80">
+  <h2 class="text-3xl font-bold mb-8 text-center">🔧 Admin-Panel</h2>
+  <div class="max-w-4xl mx-auto space-y-4">
+
+    <!-- Team hinzufügen -->
+    <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded font-bold flex justify-between items-center" onclick="togglePanel('teamPanel')">
+      Neues Team-Mitglied hinzufügen
+      <span id="teamPanelIcon">▼</span>
+    </button>
+    <div id="teamPanel" class="bg-gray-900 p-6 rounded-2xl shadow-lg hidden">
+      <form id="teamForm" class="space-y-4">
+        <input type="text" id="teamName" placeholder="Name" class="w-full p-2 rounded bg-gray-800 text-white" required>
+        <select id="teamRole" class="w-full p-2 rounded bg-gray-800 text-white">
+          <option value="Admin" data-icon="👑">Admin</option>
+          <option value="Moderator" data-icon="🛡️">Moderator</option>
+          <option value="Supporter" data-icon="🤝">Supporter</option>
+          <option value="Event-Manager" data-icon="🎉">Event-Manager</option>
+        </select>
+        <input type="file" id="teamImg" accept="image/*">
+        <button type="submit" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 rounded font-bold">➕ Hinzufügen</button>
+      </form>
+    </div>
+
+    <!-- Streamer hinzufügen -->
+    <button class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded font-bold flex justify-between items-center" onclick="togglePanel('streamerPanel')">
+      Neuen Streamer hinzufügen
+      <span id="streamerPanelIcon">▼</span>
+    </button>
+    <div id="streamerPanel" class="bg-gray-900 p-6 rounded-2xl shadow-lg hidden">
+      <form id="streamerForm" class="space-y-4">
+        <input type="text" id="streamerName" placeholder="Name" class="w-full p-2 rounded bg-gray-800 text-white" required>
+        <input type="number" id="streamerAge" placeholder="Alter" class="w-full p-2 rounded bg-gray-800 text-white" required>
+        <input type="url" id="streamerTwitch" placeholder="Twitch-Link" class="w-full p-2 rounded bg-gray-800 text-white" required>
+        <input type="file" id="streamerImg" accept="image/*">
+        <label><input type="checkbox" id="streamerLive"> LIVE Status</label>
+        <button type="submit" class="w-full py-2 bg-purple-600 hover:bg-purple-700 rounded font-bold">➕ Hinzufügen</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- Sticky Discord Button -->
+<a href="https://discord.gg/6DYjAKez3k" target="_blank" id="stickyDiscord"
+   class="px-6 py-4 bg-indigo-600 hover:bg-indigo-800 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(99,102,241,0.7)] hover:shadow-[0_0_40px_rgba(99,102,241,1)] transition-all duration-300">
+  🚀 Jetzt beitreten
+</a>
+
+<footer class="py-6 bg-black text-center text-gray-400">
+  <p>© 2025 Deine Community. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init();
+
+// Panels toggle
+function togglePanel(id){
+  const panel=document.getElementById(id);
+  const icon=document.getElementById(id+"Icon");
+  panel.classList.toggle("hidden");
+  icon.innerText=panel.classList.contains("hidden") ? "▼" : "▲";
+}
+
+// Admin Panel: Team hinzufügen
+document.getElementById("teamForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const name=document.getElementById("teamName").value;
+  const role=document.getElementById("teamRole").value;
+  const icon=document.getElementById("teamRole").selectedOptions[0].dataset.icon;
+  const file=document.getElementById("teamImg").files[0];
+  const list=JSON.parse(localStorage.getItem("teamList")||"[]");
+
+  function addTeam(imgData){
+    list.push({name,role,img:imgData,roleIcon:icon});
+    localStorage.setItem("teamList",JSON.stringify(list));
+    renderTeam();
+    e.target.reset();
+  }
+
+  if(file){
+    const reader=new FileReader();
+    reader.onload=event=>addTeam(event.target.result);
+    reader.readAsDataURL(file);
+  } else addTeam(null);
+});
+
+// Admin Panel: Streamer hinzufügen
+document.getElementById("streamerForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const name=document.getElementById("streamerName").value;
+  const age=document.getElementById("streamerAge").value;
+  const twitch=document.getElementById("streamerTwitch").value;
+  const isLive=document.getElementById("streamerLive").checked;
+  const file=document.getElementById("streamerImg").files[0];
+  const list=JSON.parse(localStorage.getItem("streamerList")||"[]");
+
+  function addStreamer(imgData){
+    list.push({name,age,twitch,img:imgData,isLive});
+    localStorage.setItem("streamerList",JSON.stringify(list));
+    renderStreamer();
+    e.target.reset();
+  }
+
+  if(file){
+    const reader=new FileReader();
+    reader.onload=event=>addStreamer(event.target.result);
+    reader.readAsDataURL(file);
+  } else addStreamer(null);
+});
+
+// Render Team & Streamer
+function renderTeam(){
+  const grid=document.getElementById("team-grid");
+  grid.innerHTML="";
+  const list=JSON.parse(localStorage.getItem("teamList")||"[]");
+  list.forEach((t,i)=>{
+    const card=document.createElement("div");
+    card.className="bg-gray-900 p-6 rounded-2xl shadow-lg text-center transform transition-all duration-300 relative hover:scale-105 hover:bg-gray-800 hover:ring-4 hover:ring-indigo-500 hover:shadow-[0_0_25px_rgba(99,102,241,0.7)]";
+    card.setAttribute("data-aos","flip-left");
+    card.setAttribute("data-aos-delay",i*200);
+    card.innerHTML=`
+      <img src="${t.img||'https://i.pravatar.cc/150'}" alt="${t.name}" class="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-indigo-600 shadow-lg">
+      <h3 class="text-xl font-bold">${t.roleIcon||''} ${t.name}</h3>
+      <p class="text-gray-400">${t.role}</p>
+      <button class="absolute top-2 left-2 text-yellow-400 hover:text-yellow-300 font-bold" onclick="editTeam(${i})">✏️</button>
+      <button class="absolute top-2 right-2 text-red-500 hover:text-red-400 font-bold" onclick="deleteTeam(${i})">✖</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderStreamer(){
+  const grid=document.getElementById("streamer-grid");
+  grid.innerHTML="";
+  const list=JSON.parse(localStorage.getItem("streamerList")||"[]");
+  list.forEach((s,i)=>{
+    const card=document.createElement("div");
+    card.className="bg-gray-800 p-6 rounded-2xl shadow-lg text-center transform transition-all duration-300 relative hover:scale-105 hover:bg-gray-700 hover:ring-4 hover:ring-purple-500 hover:shadow-[0_0_25px_rgba(139,92,246,0.7)]";
+    card.setAttribute("data-aos","zoom-in");
+    card.setAttribute("data-aos-delay",i*200);
+    card.innerHTML=`
+      <img src="${s.img||'https://i.pravatar.cc/150'}" alt="${s.name}" class="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-purple-500 shadow-lg">
+      <h3 class="text-xl font-bold">Name: ${s.name} ${s.isLive?'🔴 LIVE':''}</h3>
+      <p class="text-gray-400">Alter: ${s.age}</p>
+      <a href="${s.twitch}" target="_blank" class="text-purple-400 hover:text-purple-300 font-semibold">🎥 Twitch-Link</a>
+      <button class="absolute top-2 left-2 text-yellow-400 hover:text-yellow-300 font-bold" onclick="editStreamer(${i})">✏️</button>
+      <button class="absolute top-2 right-2 text-red-500 hover:text-red-400 font-bold" onclick="deleteStreamer(${i})">✖</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Löschen
+function deleteTeam(i){
+  const list=JSON.parse(localStorage.getItem("teamList")||"[]");
+  list.splice(i,1);
+  localStorage.setItem("teamList",JSON.stringify(list));
+  renderTeam();
+}
+function deleteStreamer(i){
+  const list=JSON.parse(localStorage.getItem("streamerList")||"[]");
+  list.splice(i,1);
+  localStorage.setItem("streamerList",JSON.stringify(list));
+  renderStreamer();
+}
+
+// Bearbeiten
+function editTeam(i){
+  const list=JSON.parse(localStorage.getItem("teamList")||"[]");
+  const t=list[i];
+  const name=prompt("Name bearbeiten:", t.name);
+  if(name!==null) t.name=name;
+  const role=prompt("Rolle bearbeiten:", t.role);
+  if(role!==null) t.role=role;
+  localStorage.setItem("teamList",JSON.stringify(list));
+  renderTeam();
+}
+function editStreamer(i){
+  const list=JSON.parse(localStorage.getItem("streamerList")||"[]");
+  const s=list[i];
+  const name=prompt("Name bearbeiten:", s.name);
+  if(name!==null) s.name=name;
+  const age=prompt("Alter bearbeiten:", s.age);
+  if(age!==null) s.age=age;
+  const twitch=prompt("Twitch-Link bearbeiten:", s.twitch);
+  if(twitch!==null) s.twitch=twitch;
+  const live=confirm("LIVE Status aktiv?");
+  s.isLive=live;
+  localStorage.setItem("streamerList",JSON.stringify(list));
+  renderStreamer();
+}
+
+// Initial render
+renderTeam();
+renderStreamer();
+</script>
+</body>
+</html>
